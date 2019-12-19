@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mapper.OrderMapper">
+	<resultMap
+		type="Order"
+		id="map1">
+		<!-- 使用父查询中shopid字段作为参数使用 getShopById查询语句，查询Shop类型的对象，赋值给Order类的shop属性 -->
+		<id
+			column="id"
+			property="id" />
+		<result
+			column="shopid"
+			property="shopid" />
+		<association
+			column="shopid"
+			select="getShopById"
+			javaType="Shop"
+			property="shop" />
+	</resultMap>
+	<!-- 根据id查询shop对象 -->
+	<select
+		id="getShopById"
+		resultType="Shop">
+		select * from shop where id = #{shopid}
+	</select>
+    
+    <update id="updateOrder" parameterType="Order">
+		update  `order` 
+		<set>
+			<if test="pay_no!=null and pay_no!=''">
+				pay_no =#{pay_no},
+			</if>
+			<if test="paytype!=null">
+				paytype =#{paytype},
+			</if>
+			<if test="orderstatus!=null">
+				orderstatus =#{orderstatus},
+			</if>
+			<if test="money!=null and money>=0">
+				money =#{money},
+			</if>
+			<if test="paytime!=null and paytime!='' ">
+				paytime =#{paytime},
+			</if>
+		</set>
+		where pay_id = #{pay_id}
+	</update>
+</mapper>

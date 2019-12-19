@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mapper.ShopMapper">
+    <update id="updateShop" parameterType="Shop">
+		update  shop 
+		<set>
+			<if test="pic!=null and pic!=''">
+				pic =#{pic},
+			</if>
+			<if test="price!=null and price>0">
+				price =#{price},
+			</if>
+			<if test="count!=null and count>=0">
+				count =#{count},
+			</if>
+			<if test="salecount!=null and salecount>0">
+				salecount =#{salecount},
+			</if>
+			<if test="details!=null and details!='' ">
+				details =#{details}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+</mapper>
